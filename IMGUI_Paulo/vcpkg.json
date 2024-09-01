@@ -1,0 +1,16 @@
+{
+    "name": "pauloimgui",
+    "version-string": "0.1.0",
+    "builtin-baseline": "501db0f17ef6df184fcdbfbe0f87cde2313b6ab1",
+    "dependencies": [
+        {
+            "name": "imgui",
+            "features": [
+                "glfw-binding",
+                "opengl3-binding"
+            ]
+        },
+        "glfw3",
+        "glad"
+    ]
+}

@@ -1,0 +1,4 @@
+C:/Users/pbrito/source/repos/IMGUI_Paulo/IMGUI_Paulo/vcpkg_installed/x64-windows/vcpkg/pkgs/imgui_x64-windows/debug/lib/imguid.lib
+C:/Users/pbrito/source/repos/IMGUI_Paulo/IMGUI_Paulo/vcpkg_installed/x64-windows/vcpkg/pkgs/imgui_x64-windows/debug/share/imgui/imgui-config.cmake
+C:/Users/pbrito/source/repos/IMGUI_Paulo/IMGUI_Paulo/vcpkg_installed/x64-windows/vcpkg/pkgs/imgui_x64-windows/debug/share/imgui/imgui-targets.cmake
+C:/Users/pbrito/source/repos/IMGUI_Paulo/IMGUI_Paulo/vcpkg_installed/x64-windows/vcpkg/pkgs/imgui_x64-windows/debug/share/imgui/imgui-targets-debug.cmake
