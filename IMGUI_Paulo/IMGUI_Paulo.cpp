@@ -47,6 +47,38 @@ void CleanupImGui()
     ImGui::DestroyContext();
 }
 
+void RenderFrame()
+{
+	// Rendering
+	ImGui::Render();
+	/*
+     Renders the ImGui user interface to the frame buffer.
+     In computer graphics, the frame buffer is a region of memory that stores the pixel data
+     for the image being displayed on the screen. When the ImGui user interface is rendered 
+     using this code, the resulting UI elements are drawn directly onto the frame buffer.
+     The frame buffer is responsible for holding the final image that is sent to the display 
+     device, such as a monitor. By rendering the ImGui UI to the frame buffer, the UI elements 
+     become part of the overall image that is shown on the screen.
+    */
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+}
+
+void DrawImGuiContent()
+{
+    //render the imgui window
+    ImGui::Begin("Hello, world!");
+    ImGui::Text("This is some useful text.");
+    ImGui::End();
+}
+
+void NewFrame()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+}
+
 int main()
 {
     GLFWwindow* window = InitializeGLFW(1280, 720, "IMGUI Paulo");
@@ -62,26 +94,17 @@ int main()
     {
         // Poll events
         glfwPollEvents();
+
 		// Start the Dear ImGui frame
 		glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
         glClear(GL_COLOR_BUFFER_BIT);
 
 
-        // Start new frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        NewFrame();
 
-        //render the imgui window
-        ImGui::Begin("Hello, world!");
-        ImGui::Text("This is some useful text.");
-        ImGui::End();
+        DrawImGuiContent();
 
-        // Rendering
-        ImGui::Render();
-        
-        
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        RenderFrame();
 
         // Swap buffers
         glfwSwapBuffers(window);
