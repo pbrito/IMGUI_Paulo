@@ -56,11 +56,36 @@ int main()
     // Initialize ImGui
     InitializeImGui(window);
 
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
         // Poll events
         glfwPollEvents();
+		// Start the Dear ImGui frame
+		glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+
+        // Start new frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        //render the imgui window
+        ImGui::Begin("Hello, world!");
+        ImGui::Text("This is some useful text.");
+        ImGui::End();
+
+        // Rendering
+        ImGui::Render();
+        
+        
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        // Swap buffers
+        glfwSwapBuffers(window);
+       
     }
 
     // Cleanup
