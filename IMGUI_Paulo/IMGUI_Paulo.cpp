@@ -15,10 +15,12 @@ void setupVertexData(GLuint& VAO, GLuint& VBO);
 void InitializeImGui(GLFWwindow* window);
 void CleanupImGui();
 void RenderFrame();
-void DrawImGuiContent(bool & drawTriangle);
+void DrawImGuiContent();
 void NewFrame();
 void SetupTriangle(GLuint& VAO, GLuint& VBO, GLuint& shaderProgram);
 void DrawTriangle(GLuint VAO, GLuint shaderProgram);
+
+static bool drawTriangle = false;
 
 
 #pragma region shader Source
@@ -64,24 +66,16 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         // Variables for ImGui controls
-        static bool drawTriangle= false;
         // Poll events
         glfwPollEvents();
 
-        // Clear the screen
-		glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // Draw the triangle
-        if(drawTriangle)
-        DrawTriangle(VAO, shaderProgram);
-
         NewFrame();
-
-        DrawImGuiContent(drawTriangle);
-
+        DrawImGuiContent();
         RenderFrame();
 
+		// openGL draw triangle if drawTriangle is true
+        if (drawTriangle)
+            DrawTriangle(VAO, shaderProgram);
         // Swap buffers
         glfwSwapBuffers(window);
        
@@ -156,19 +150,80 @@ void RenderFrame()
 
 }
 
-void DrawImGuiContent( bool &drawTriangle)
+void DrawImGuiContent( )
 {
+    static bool speedpopup = false;
+
     //render the imgui window
     ImGui::Begin("Hello, world!");
     ImGui::Text("This is some useful text.");
-//Imgui checkbox for bool drawTraingle
+    //Imgui checkbox for bool drawTraingle
 	ImGui::Checkbox("Draw Triangle", &drawTriangle);
 
+    // Add button with round corners and yellow background color
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow background color
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f); // Round corners
+    //text color black
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f)); // Black text color
+
+	// Add a button
+    if (ImGui::Button("Round Button"))
+    {
+        // Button action
+        //open a new popout window 
+		speedpopup = !speedpopup;
+    
+
+		//std::cout << "ee" << std::endl;
+
+    }
+	ImGui::PopStyleColor(2);
+
+    // Display contents in a scrolling region
+    ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff Comments");
+    ImGui::BeginChild("Scrolling");
+    for (int n = 0; n < 10; n++)
+        ImGui::Text("%04d: Some text", n);
+    ImGui::EndChild();
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    
+    
+    if (speedpopup) {
+        if (ImGui::Begin("mypicker"))
+        {
+            std::string speed_text = "You're adjusting the speed";
+            speed_text += "\n";
+            ImGui::Text(speed_text.c_str());
+            //list the current speed
+            std::string currSpeed = "This is the current speed: ";
+            ImGui::Text(currSpeed.c_str());
+
+            ImGui::Spacing();
+            ImGui::NextColumn();
+
+            ImGui::Columns(1);
+            ImGui::Separator();
+
+            ImGui::NewLine();
+
+            ImGui::SameLine(270);
+            //click ok when finished adjusting
+            if (ImGui::Button("OK finished adjusting", ImVec2(200, 0))) {
+                speedpopup = false;
+            }
+
+            ImGui::End();
+        }
+    }
     ImGui::End();
 }
 
 void NewFrame()
 {
+    // Clear the screen
+    glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
